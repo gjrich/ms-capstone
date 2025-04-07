@@ -1,0 +1,6 @@
+id,cve_id,score_date,epss_score,percentile,model_version
+1,cve,00Z,,,epss
+2,CVE-1999-0001,00Z,0.77874,0.77874,epss
+3,CVE-1999-0002,00Z,0.94392,0.94392,epss
+4,CVE-1999-0003,00Z,0.99651,0.99651,epss
+5,CVE-1999-0004,00Z,0.87587,0.87587,epss

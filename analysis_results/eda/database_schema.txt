@@ -1,0 +1,89 @@
+
+Table: vulnerabilities
+-----------------------
+cve_id (TEXT)
+published_date (TEXT)
+last_modified_date (TEXT)
+description (TEXT)
+severity_v3 (TEXT)
+cvss_v3_score (REAL)
+cvss_v3_vector (TEXT)
+attack_vector (TEXT)
+attack_complexity (TEXT)
+privileges_required (TEXT)
+user_interaction (TEXT)
+scope (TEXT)
+confidentiality_impact (TEXT)
+integrity_impact (TEXT)
+availability_impact (TEXT)
+year (INTEGER)
+month (INTEGER)
+quarter (INTEGER)
+is_holiday_season (INTEGER)
+is_quarter_end (INTEGER)
+is_year_end (INTEGER)
+covid_period (TEXT)
+
+Table: cwe
+-----------
+id (INTEGER)
+cve_id (TEXT)
+cwe_id (TEXT)
+
+Table: affected_products
+-------------------------
+id (INTEGER)
+cve_id (TEXT)
+vendor (TEXT)
+product (TEXT)
+version (TEXT)
+cpe_uri (TEXT)
+
+Table: exploitations
+---------------------
+id (INTEGER)
+cve_id (TEXT)
+vendor_project (TEXT)
+product (TEXT)
+vulnerability_name (TEXT)
+date_added (TEXT)
+date_known_exploited (TEXT)
+short_description (TEXT)
+required_action (TEXT)
+due_date (TEXT)
+known_ransomware_use (TEXT)
+notes (TEXT)
+
+Table: epss_scores
+-------------------
+id (INTEGER)
+cve_id (TEXT)
+score_date (TEXT)
+epss_score (REAL)
+percentile (REAL)
+model_version (TEXT)
+
+Table: public_exploits
+-----------------------
+id (INTEGER)
+cve_id (TEXT)
+exploit_db_id (INTEGER)
+file_path (TEXT)
+description (TEXT)
+date_published (TEXT)
+author (TEXT)
+type (TEXT)
+platform (TEXT)
+port (INTEGER)
+date_added (TEXT)
+verified (INTEGER)
+
+Views:
+-------
+view_vulnerability_complete
+view_seasonal_patterns
+view_critical_patching_window
+view_exploitation_predictors
+view_covid_impact
+view_vendor_product_metrics
+view_enhanced_patching_window

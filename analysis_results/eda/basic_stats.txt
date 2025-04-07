@@ -1,0 +1,11 @@
+Total vulnerabilities: 282443
+Exploited vulnerabilities: 1311
+Exploitation rate: 0.46%
+
+Table counts:
+vulnerabilities: 282443
+cwe: 145496
+affected_products: 1119825
+exploitations: 1311
+epss_scores: 272390
+public_exploits: 49822

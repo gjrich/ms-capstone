@@ -1,0 +1,4 @@
+covid_period,vulnerability_count,exploited_count,exploitation_rate
+Pre-COVID,47862,297,0.62
+During-COVID,23938,202,0.84
+Post-COVID,116466,542,0.47

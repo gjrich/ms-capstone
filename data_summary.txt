@@ -1,0 +1,266 @@
+(.venv) PS C:\Projects\ms-capstone> python .\data_summary.py
+
+================================================================================
+Analyzing CSV file: epss_scores-2025-03-30.csv
+================================================================================
+C:\Projects\ms-capstone\data_summary.py:14: DtypeWarning: Columns (1,2) have mixed types. Specify dtype option on import or set low_memory=False.
+  df = pd.read_csv(file_path)
+Number of records: 272390
+Number of columns: 2
+
+Column information:
+- #model_version:v2025.03.14: Type=object, Missing=0 (0.00%), Unique values=25446 (9.34%), Sample values: ['0.00088', '0.87514', '0.00442']
+- score_date:2025-03-30T12:55:00Z: Type=object, Missing=0 (0.00%), Unique values=80915 (29.71%), Sample values: ['0.78289', '0.44965', '0.76891']
+
+Potential data quality issues:
+- No major issues detected
+
+Sample data (first 3 rows):
+              #model_version:v2025.03.14 score_date:2025-03-30T12:55:00Z
+cve                                 epss                      percentile
+CVE-1999-0001                    0.01297                         0.77874
+CVE-1999-0002                    0.16835                         0.94392
+
+================================================================================
+Analyzing CSV file: files_exploits.csv
+================================================================================
+Number of records: 46597
+Number of columns: 17
+
+Column information:
+- id: Type=int64, Missing=0 (0.00%), Unique values=46125 (98.99%), Sample values: [46573, 47976, 19415]
+- file: Type=object, Missing=0 (0.00%), Unique values=46125 (98.99%), Sample values: ['exploits/windows/remote/5028.html', 'exploits/windows/dos/30422.py', 'exploits/php/webapps/6827.txt']
+- description: Type=object, Missing=0 (0.00%), Unique values=46088 (98.91%), Sample values: ["Microsoft Edge Chakra - 'PathTypeHandlerBase::SetAttributesHelper' Type Confusion", 'CA BrightStor ARCserve Backup - Remote Buffer Overflow (PoC)', "Article Script 1.6.3 - 'rss.php' SQL Injection"]
+- date_published: Type=object, Missing=0 (0.00%), Unique values=7196 (15.44%), Sample values: ['2011-04-03', '2001-05-15', '2016-06-10']
+- author: Type=object, Missing=0 (0.00%), Unique values=9983 (21.42%), Sample values: ['venatir', 'mu-b', 'Samuel Huntley']
+- type: Type=object, Missing=0 (0.00%), Unique values=4 (0.01%), Sample values: ['webapps', 'webapps', 'dos']
+- platform: Type=object, Missing=0 (0.00%), Unique values=63 (0.14%), Sample values: ['php', 'windows', 'linux']
+- port: Type=float64, Missing=43241 (92.80%), Unique values=317 (0.68%), Sample values: [80.0, 80.0, 80.0]
+- date_added: Type=object, Missing=0 (0.00%), Unique values=7095 (15.23%), Sample values: ['2009-09-08', '2012-04-22', '2016-06-15']
+- date_updated: Type=object, Missing=7094 (15.22%), Unique values=3563 (7.65%), Sample values: ['2016-06-13', '2014-03-24', '2017-08-17']
+- verified: Type=int64, Missing=0 (0.00%), Unique values=2 (0.00%), Sample values: [0, 1, 1]
+- codes: Type=object, Missing=14572 (31.27%), Unique values=29784 (63.92%), Sample values: ['OSVDB-37084;CVE-2007-4920', 'OSVDB-75598', 'CVE-2022-40946']
+- tags: Type=object, Missing=41438 (88.93%), Unique values=30 (0.06%), Sample values: ['Metasploit Framework (MSF)', 'Metasploit Framework (MSF)', 'Use After Free (UAF)']
+- aliases: Type=object, Missing=46113 (98.96%), Unique values=450 (0.97%), Sample values: ['2009-lib_postgresqludf_sys_0.0.1.tar.gz', '2009-12-05-34340.ps', 'nesexploit.c']
+- screenshot_url: Type=object, Missing=45139 (96.87%), Unique values=1452 (3.12%), Sample values: ['http://www.exploit-db.com/screenshots/idlt19000/screen-shot-2012-05-25-at-125551-pm.png', 'http://www.exploit-db.com/screenshots/idlt29000/screen-shot-2013-10-20-at-111230-am.png', 'http://www.exploit-db.com/screenshots/idlt39000/38526.png']
+- application_url: Type=object, Missing=38261 (82.11%), Unique values=5711 (12.26%), Sample values: ['http://www.exploit-db.comeccube-2.12.6en-p1.zip', 'http://www.exploit-db.comphpBB-2.0.17-files.tar.gz', 'http://www.exploit-db.comaxigen.i386.beta.gentoo.tar.gz']
+- source_url: Type=object, Missing=27093 (58.14%), Unique values=16495 (35.40%), Sample values: ['https://www.securityfocus.com/bid/7008/info', 'https://www.securityfocus.com/bid/53972/info', 'https://www.securityfocus.com/bid/21049/info']
+
+Potential CVE ID columns (for joining datasets):
+- codes
+
+Potential date columns:
+- date_published
+- date_added
+- date_updated
+- screenshot_url
+
+Potential data quality issues:
+- Columns with >20% missing values: ['port', 'codes', 'tags', 'aliases', 'screenshot_url', 'application_url', 'source_url']
+- Columns with suspicious low cardinality: ['type', 'verified']
+- Columns with very high cardinality (potentially unique identifiers): ['id', 'file', 'description']
+
+Sample data (first 3 rows):
+      id                        file                                                                              description date_published          author type platform  port  date_added date_updated  verified                 
+     codes                        tags aliases screenshot_url application_url                                                         source_url
+0  16929   exploits/aix/dos/16929.rb  AIX Calendar Manager Service Daemon (rpc.cmsd) Opcode 21 - Buffer Overflow (Metasploit)     2010-11-11      Metasploit  dos      aix   NaN  2010-11-11   2011-03-06         1  CVE-2009-3699;OSVDB-58726  Metasploit Framework (MSF)     NaN            NaN             NaN  http://aix.software.ibm.com/aix/efixes/security/cmsd_advisory.asc
+1  19046  exploits/aix/dos/19046.txt                                        AppleShare IP Mail Server 5.0.3 - Buffer Overflow     1999-10-15  Chris Wedgwood  dos      aix   NaN  1999-10-15   2014-01-02         1   CVE-1999-1015;OSVDB-5970                         NaN     NaN            NaN             NaN                          https://www.securityfocus.com/bid/61/info
+2  19049  exploits/aix/dos/19049.txt                                                          BSDI 4.0 tcpmux / inetd - Crash     1998-04-07   Mark Schaefer  dos      aix   NaN  1998-04-07   2014-01-02         1                OSVDB-82889                         NaN     NaN            NaN             NaN                          https://www.securityfocus.com/bid/66/info
+
+================================================================================
+Analyzing CSV file: known_exploited_vulnerabilities.csv
+================================================================================
+Number of records: 1311
+Number of columns: 11
+
+Column information:
+- cveID: Type=object, Missing=0 (0.00%), Unique values=1311 (100.00%), Sample values: ['CVE-2018-0161', 'CVE-2014-4123', 'CVE-2023-38205']
+- vendorProject: Type=object, Missing=0 (0.00%), Unique values=210 (16.02%), Sample values: ['IBM', 'Oracle', 'Microsoft']
+- product: Type=object, Missing=0 (0.00%), Unique values=535 (40.81%), Sample values: ['Auditor', 'PAN-OS', 'WebLogic Server']
+- vulnerabilityName: Type=object, Missing=0 (0.00%), Unique values=1022 (77.96%), Sample values: ['Adobe Acrobat and Reader Universal 3D Remote Code Execution Vulnerability', 'Apple macOS Out-of-Bounds Read Vulnerability', 'F5 BIG-IP Traffic Management Microkernel Buffer Overflow']
+- dateAdded: Type=object, Missing=0 (0.00%), Unique values=280 (21.36%), Sample values: ['2022-03-03', '2023-06-23', '2022-03-03']
+- shortDescription: Type=object, Missing=0 (0.00%), Unique values=1231 (93.90%), Sample values: ['Microsoft Windows Print Spooler contains an unspecified vulnerability which allow for privilege escalation.', "Progress WhatsUp Gold contains a SQL injection vulnerability that allows an unauthenticated attacker to retrieve the user's encrypted password if the application is configured with only a single user.", 'Nostromo nhttpd contains a directory traversal vulnerability in the http_verify() function in a non-chrooted nhttpd server allowing for remote code execution.']
+- requiredAction: Type=object, Missing=0 (0.00%), Unique values=36 (2.75%), Sample values: ['The impacted product is end-of-life and should be disconnected if still in use.', 'Apply updates per vendor instructions.', 'Apply updates per vendor instructions.']
+- dueDate: Type=object, Missing=0 (0.00%), Unique values=301 (22.96%), Sample values: ['2024-12-11', '2023-07-13', '2022-03-01']
+- knownRansomwareCampaignUse: Type=object, Missing=0 (0.00%), Unique values=2 (0.15%), Sample values: ['Unknown', 'Known', 'Known']
+- notes: Type=object, Missing=0 (0.00%), Unique values=1311 (100.00%), Sample values: ['https://nvd.nist.gov/vuln/detail/CVE-2022-1040', 'https://github.com/pear/Archive_Tar/commit/cde460582ff389404b5b3ccb59374e9b389de916, https://www.drupal.org/sa-core-2021-001, https://access.redhat.com/security/cve/cve-2020-36193; https://nvd.nist.gov/vuln/detail/CVE-2020-36193', 'https://nvd.nist.gov/vuln/detail/CVE-2015-2590']
+- cwes: Type=object, Missing=144 (10.98%), Unique values=194 (14.80%), Sample values: ['CWE-787', 'CWE-200', 'CWE-787']
+
+Potential CVE ID columns (for joining datasets):
+- cveID
+- notes
+
+Potential date columns:
+- dateAdded
+- dueDate
+
+Potential data quality issues:
+- Columns with suspicious low cardinality: ['knownRansomwareCampaignUse']
+- Columns with very high cardinality (potentially unique identifiers): ['cveID', 'shortDescription', 'notes']
+
+Sample data (first 3 rows):
+           cveID vendorProject                           product                                                        vulnerabilityName   dateAdded                                                                               
+                                                                                                                                                                                                                                    
+         shortDescription                                                                                                                                                         requiredAction     dueDate knownRansomwareCampaignUse                                                                                                                                     notes     cwes
+0  CVE-2025-2783        Google                     Chromium Mojo                        Google Chromium Mojo Sandbox Escape Vulnerability  2025-03-27  Google Chromium Mojo on Windows contains a sandbox escape vulnerability caused by a logic error, which results from an incorrect handle being provided in unspecified circumstances. This vulnerability could affect multiple web browsers that utilize Chromium, including, but not limited to, Google Chrome, Microsoft Edge, and Opera.  Apply mitigations per vendor instructions, follow applicable BOD 22-01 guidance for cloud services, or discontinue use of the product if mitigations are unavailable.  2025-04-17                    Unknown  https://chromereleases.googleblog.com/2025/03/stable-channel-update-for-desktop_25.html ; https://nvd.nist.gov/vuln/detail/CVE-2025-2783      NaN
+1  CVE-2019-9875      Sitecore  CMS and Experience Platform (XP)  Sitecore CMS and Experience Platform (XP) Deserialization Vulnerability  2025-03-26                                                                      Sitecore CMS and Experience Platform (XP) contain a deserialization vulnerability in the Sitecore.Security.AntiCSRF module that allows an authenticated attacker to execute arbitrary code by sending a serialized .NET object in the HTTP POST parameter __CSRFTOKEN.  Apply mitigations per vendor instructions, follow applicable BOD 22-01 guidance for cloud services, or discontinue use of the product if mitigations are unavailable.  2025-04-16                    Unknown             https://support.sitecore.com/kb?id=kb_article_view&sysparm_article=KB0038556 ; https://nvd.nist.gov/vuln/detail/CVE-2019-9875  CWE-502
+2  CVE-2019-9874      Sitecore  CMS and Experience Platform (XP)  Sitecore CMS and Experience Platform (XP) Deserialization Vulnerability  2025-03-26                                                                    Sitecore CMS and Experience Platform (XP) contain a deserialization vulnerability in the Sitecore.Security.AntiCSRF module that allows an unauthenticated attacker to execute arbitrary code by sending a serialized .NET object in the HTTP POST parameter __CSRFTOKEN.  Apply mitigations per vendor instructions, follow applicable BOD 22-01 guidance for cloud services, or discontinue use of the product if mitigations are unavailable.  2025-04-16                    Unknown             https://support.sitecore.com/kb?id=kb_article_view&sysparm_article=KB0334035 ; https://nvd.nist.gov/vuln/detail/CVE-2019-9874  CWE-502
+
+================================================================================
+Analyzing NVD JSON file: nvdcve-1.1-2024-H2.json
+================================================================================
+Number of CVE items: 18203
+Global metadata - CVE_data_type: CVE
+Global metadata - CVE_data_format: MITRE
+Global metadata - CVE_data_version: 4.0
+Global metadata - CVE_data_numberOfCVEs: 37505
+Global metadata - CVE_data_timestamp: 2025-03-30T07:00Z
+
+Field statistics (across all CVE items):
+- cve: Present in 18203/18203 items (100.00%), Type: dict
+- configurations: Present in 18203/18203 items (100.00%), Type: dict
+- impact: Present in 18203/18203 items (100.00%), Type: dict
+- publishedDate: Present in 18203/18203 items (100.00%), Type: str
+- lastModifiedDate: Present in 18203/18203 items (100.00%), Type: str
+
+Nested field statistics:
+
+  cve subfields:
+  - data_type: Present in 18203/18203 items (100.00%)
+  - data_format: Present in 18203/18203 items (100.00%)
+  - data_version: Present in 18203/18203 items (100.00%)
+  - CVE_data_meta: Present in 18203/18203 items (100.00%)
+  - problemtype: Present in 18203/18203 items (100.00%)
+  - references: Present in 18203/18203 items (100.00%)
+  - description: Present in 18203/18203 items (100.00%)
+
+  configurations subfields:
+  - CVE_data_version: Present in 18203/18203 items (100.00%)
+  - nodes: Present in 18203/18203 items (100.00%)
+
+  impact subfields:
+  - baseMetricV3: Present in 10969/18203 items (60.26%)
+
+Detailed examination of important fields:
+CVE IDs (sample): ['CVE-2024-0001', 'CVE-2024-0002', 'CVE-2024-0003', 'CVE-2024-0004', 'CVE-2024-0005', 'CVE-2024-0006', 'CVE-2024-0012', 'CVE-2024-0067', 'CVE-2024-0069', 'CVE-2024-0070']
+CVSS v3 Scores (sample): [9.8, 9.8, 7.2, 7.2, 8.8, 'N/A', 9.8, 'N/A', 'N/A', 'N/A']
+CVSS v2 Scores (sample): ['N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A']
+Published Dates (sample): ['2024-09-23T18:15Z', '2024-09-23T18:15Z', '2024-09-23T18:15Z', '2024-09-23T18:15Z', '2024-09-23T18:15Z', '2024-07-19T15:15Z', '2024-11-18T16:15Z', '2024-09-10T05:15Z', '2023-11-28T00:15Z', '2023-11-28T00:15Z']
+Last Modified Dates (sample): ['2024-09-27T14:08Z', '2024-09-27T14:13Z', '2024-09-27T14:23Z', '2024-09-27T14:24Z', '2024-09-27T15:25Z', '2024-11-21T08:45Z', '2024-12-20T15:47Z', '2024-11-08T09:15Z', '2023-11-28T00:15Z', '2023-11-28T00:15Z']
+
+Reference structure:
+Reference field structure: dict_keys(['reference_data'])
+Reference entry structure: dict_keys(['url', 'name', 'refsource', 'tags'])
+
+Configurations structure:
+Configurations field structure: dict_keys(['CVE_data_version', 'nodes'])
+
+Potential data quality issues:
+- Missing CVSS v3 scores: 7234 items (39.74%)
+
+NVD file distribution by year:
+- 2017: 2 files
+- 2018: 2 files
+- 2019: 2 files
+- 2020: 2 files
+- 2021: 2 files
+- 2022: 2 files
+- 2023: 2 files
+- 2024: 2 files
+
+================================================================================
+Data Understanding Goals Summary
+================================================================================
+
+1. Data Source Structures:
+- EPSS Scores (epss_scores-2025-03-30.csv): 272390 records, 2 columns
+  Primary purpose: Provides probability scores for vulnerability exploitation
+
+- Exploit-DB (files_exploits.csv): 46597 records, 17 columns
+  Primary purpose: Contains information about publicly available exploits
+
+- Known Exploited Vulnerabilities (known_exploited_vulnerabilities.csv): 1311 records, 11 columns
+  Primary purpose: Lists vulnerabilities known to be actively exploited in the wild
+
+- NVD Data (16 JSON files): Contains detailed vulnerability metadata
+  Sample file format: 18203 CVE records with detailed metadata
+  Primary purpose: Comprehensive vulnerability information source
+
+2. Key Fields and Schema Summary:
+
+EPSS Scores key fields:
+- #model_version:v2025.03.14: object
+- score_date:2025-03-30T12:55:00Z: object
+
+Exploit-DB key fields:
+- id: int64
+- file: object
+- description: object
+- date_published: object
+- author: object
+- type: object
+- platform: object
+- codes: object
+
+Known Exploited Vulnerabilities key fields:
+- cveID: object
+- vendorProject: object
+- product: object
+- vulnerabilityName: object
+- dateAdded: object
+- shortDescription: object
+- requiredAction: object
+- dueDate: object
+- knownRansomwareCampaignUse: object
+- notes: object
+- cwes: object
+
+NVD Data key fields:
+- cve.CVE_data_meta.ID: CVE identifier
+- publishedDate: Date of vulnerability publication
+- lastModifiedDate: Date of last modification
+- impact.baseMetricV3.cvssV3: CVSS v3 scoring metrics
+- configurations: Information about affected products and versions
+
+3. Key Fields for Joining Datasets:
+The primary joining key across all datasets is the CVE ID:
+- EPSS Scores: CVE ID field not clearly identified
+- Exploit-DB: CVE ID field not clearly identified
+- Known Exploited Vulnerabilities: ['cveID']
+- NVD Data: cve.CVE_data_meta.ID
+
+Secondary joining fields (dates):
+- EPSS Scores: ['score_date:2025-03-30T12:55:00Z']
+- Exploit-DB: ['date_published', 'date_added', 'date_updated']
+- Known Exploited Vulnerabilities: ['dateAdded', 'dueDate']
+- NVD Data: publishedDate, lastModifiedDate
+
+4. Data Quality Assessment:
+
+EPSS Scores quality issues:
+- No missing values detected
+
+Exploit-DB quality issues:
+- Missing values in key fields: {'port': np.int64(43241), 'date_updated': np.int64(7094), 'codes': np.int64(14572), 'tags': np.int64(41438), 'aliases': np.int64(46113), 'screenshot_url': np.int64(45139), 'application_url': np.int64(38261), 'source_url': np.int64(27093)}
+- CVE IDs present in data: Yes
+
+Known Exploited Vulnerabilities quality issues:
+- Missing values: {'cwes': np.int64(144)}
+
+NVD Data quality issues:
+- Missing CVE IDs: 0 items
+- Missing CVSS v3 scores: 7234 items (39.74%)
+- Missing CVSS v2 scores: 18203 items (100.00%)
+
+Overall Data Integration Challenges:
+- CVE ID format consistency across datasets
+- Date format standardization for temporal analysis
+- Handling missing CVSS scores and metadata
+- Extracting CVE IDs from Exploit-DB descriptions if needed
+- Temporal alignment of vulnerability publication and exploitation data
+
+Next Steps:
+1. Create database schema based on identified fields
+2. Design table relationships using CVE IDs as primary keys
+3. Develop ETL process to load and transform the data
+4. Create views for simplified analysis queries
