@@ -8,6 +8,7 @@ __pycache__/
 
 # database
 data/vulnerability_analysis.db
+data/vulnerability_analysis_clean_20250413_203230.db
 
 # Distribution / packaging
 .Python

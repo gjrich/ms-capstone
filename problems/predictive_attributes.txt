@@ -1,0 +1,92 @@
+This will appear in the console and be logged.
+Analyzing vulnerability attributes predictive of exploitation...
+
+Data Overview:
+Total vulnerabilities: 151430
+Exploited vulnerabilities: 1004 (0.66%)
+Vulnerabilities with public exploits: 3754 (2.48%)
+
+Training Random Forest model...
+
+Model Evaluation:
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00     45128
+           1       0.34      0.31      0.33       301
+
+    accuracy                           0.99     45429
+   macro avg       0.67      0.65      0.66     45429
+weighted avg       0.99      0.99      0.99     45429
+
+5-fold Cross-validation F1 Score: 0.3248 (±0.0366)
+
+Top 10 most important features:
+                        feature  importance
+1                max_epss_score    0.741500
+0                 cvss_v3_score    0.053830
+19        integrity_impact_HIGH    0.032786
+2            has_public_exploit    0.031566
+16  confidentiality_impact_HIGH    0.026686
+24     availability_impact_NONE    0.011000
+4           attack_vector_LOCAL    0.010499
+18  confidentiality_impact_NONE    0.009197
+22     availability_impact_HIGH    0.009109
+5         attack_vector_NETWORK    0.008742
+
+Analyzing categorical features impact on exploitation:
+
+attack_vector impact:
+              value   count  exploited  exploitation_rate
+1           NETWORK  109778        748           0.681375
+0             LOCAL   36833        240           0.651590
+2  ADJACENT_NETWORK    3275         16           0.488550
+3          PHYSICAL    1544          0           0.000000
+
+attack_complexity impact:
+  value   count  exploited  exploitation_rate
+1  HIGH    7733         59           0.762964
+0   LOW  143697        945           0.657634
+
+privileges_required impact:
+  value  count  exploited  exploitation_rate
+1  NONE  89353        700           0.783410
+0   LOW  49354        253           0.512623
+2  HIGH  12723         51           0.400849
+
+user_interaction impact:
+      value  count  exploited  exploitation_rate
+0      NONE  99246        768           0.773835
+1  REQUIRED  52184        236           0.452246
+
+scope impact:
+       value   count  exploited  exploitation_rate
+0  UNCHANGED  123102        914           0.742474
+1    CHANGED   28328         90           0.317707
+
+confidentiality_impact impact:
+  value  count  exploited  exploitation_rate
+0  HIGH  86132        893           1.036781
+1  NONE  32849         71           0.216141
+2   LOW  32449         40           0.123270
+
+integrity_impact impact:
+  value  count  exploited  exploitation_rate
+0  HIGH  73390        836           1.139120
+1  NONE  46912        127           0.270720
+2   LOW  31128         41           0.131714
+
+availability_impact impact:
+  value  count  exploited  exploitation_rate
+0  HIGH  86809        840           0.967642
+2   LOW   3078         13           0.422352
+1  NONE  61543        151           0.245357
+
+Key Findings:
+- The most important feature for predicting exploitation is 'max_epss_score' with 0.7415 importance score
+- The model achieves 0.80 AUC score, indicating strong predictive power
+- 'NETWORK' attack vector has the highest exploitation rate at 0.68%
+- EPSS score has a correlation of 0.1398 with actual exploitation
+- Low complexity vulnerabilities are exploited -0.11% more often than high complexity ones
+- Public exploit availability increases exploitation likelihood by 11.8x
+
+Analysis complete! Results saved to analysis_results/predictive/

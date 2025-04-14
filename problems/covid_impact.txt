@@ -1,0 +1,76 @@
+This will appear in the console and be logged.
+Analyzing COVID-19 impact on vulnerability exploitation patterns...
+
+COVID-19 Period Analysis:
+   covid_period  vuln_count  exploited_count  exploitation_rate  vulns_per_month
+0  During-COVID       21225              178               0.84      1307.494867
+1    Post-COVID       61457              381               0.62      2019.397590
+2     Pre-COVID       33377              217               0.65      1267.481013
+
+Sample of monthly data:
+     month  vuln_count  exploited_count  exploitation_rate       date covid_period
+0  2018-01        8583               44               0.51 2018-01-01    Pre-COVID
+1  2018-03        9730               94               0.97 2018-03-01    Pre-COVID
+2  2018-04       10390               83               0.80 2018-04-01    Pre-COVID
+3  2018-06       10614               42               0.40 2018-06-01    Pre-COVID
+4  2018-07       10233               66               0.64 2018-07-01    Pre-COVID
+
+Patching Window by COVID Period:
+   covid_period  count     avg_days  median_days  min_days  max_days
+0  During-COVID    183   511.049180        478.0     141.0    1730.0
+2     Pre-COVID    217  1131.198157       1043.0     615.0    2409.0
+
+Severity Distribution by COVID Period (Reworked):
+    covid_period severity_v3  count  total  percentage
+0   During-COVID    CRITICAL   5624  22858   24.604077
+1   During-COVID        HIGH  11124  22858   48.665675
+2   During-COVID         LOW    531  22858    2.323038
+3   During-COVID      MEDIUM   5579  22858   24.407210
+4     Post-COVID    CRITICAL  16118  59824   26.942364
+5     Post-COVID        HIGH  27079  59824   45.264442
+6     Post-COVID         LOW    966  59824    1.614737
+7     Post-COVID      MEDIUM  15661  59824   26.178457
+8      Pre-COVID    CRITICAL   9232  33377   27.659766
+9      Pre-COVID        HIGH  16622  33377   49.800761
+10     Pre-COVID         LOW    492  33377    1.474069
+11     Pre-COVID      MEDIUM   7031  33377   21.065404
+
+Attack Vector Distribution by COVID Period:
+    covid_period     attack_vector  count
+0   During-COVID           NETWORK  45424
+1   During-COVID           NETWORK  14869
+2   During-COVID             LOCAL  14359
+3   During-COVID             LOCAL   5232
+4   During-COVID  ADJACENT_NETWORK   1132
+5   During-COVID  ADJACENT_NETWORK    821
+6   During-COVID          PHYSICAL    542
+7   During-COVID          PHYSICAL    303
+8      Pre-COVID           NETWORK  25654
+9      Pre-COVID             LOCAL   6735
+10     Pre-COVID  ADJACENT_NETWORK    613
+11     Pre-COVID          PHYSICAL    375
+
+Statistical Significance Testing:
+Chi-square test for Pre-COVID vs During-COVID exploitation rates: Chi2=6.16, p-value=0.0131
+Statistically significant at 0.05 level
+
+Aggregated Attack Vector Distribution by COVID Period:
+   covid_period     attack_vector  count  percentage
+0  During-COVID  ADJACENT_NETWORK   1953        2.36
+1  During-COVID             LOCAL  19591       23.69
+2  During-COVID           NETWORK  60293       72.92
+3  During-COVID          PHYSICAL    845        1.02
+4     Pre-COVID  ADJACENT_NETWORK    613        1.84
+5     Pre-COVID             LOCAL   6735       20.18
+6     Pre-COVID           NETWORK  25654       76.86
+7     Pre-COVID          PHYSICAL    375        1.12
+
+Key Findings:
+- Exploitation rate increased by 29.2% during COVID compared to pre-COVID period
+- Exploitation rate changed by -26.2% in post-COVID period compared to during COVID
+- Monthly vulnerability publications increased by 3.2% during the pandemic
+- Median time to exploitation changed by -54.2% during COVID
+- Network-based vulnerabilities decreased by 3.9 percentage points during COVID
+- The change in exploitation rates during COVID is statistically significant (p=0.0131)
+
+Analysis complete! Results saved to analysis_results/covid/

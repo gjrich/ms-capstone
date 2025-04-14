@@ -1,0 +1,49 @@
+This will appear in the console and be logged.
+Analyzing critical patching windows between disclosure and exploitation...
+
+Basic Patching Window Statistics:
+Total exploited vulnerabilities analyzed: 1004
+Median days to exploitation: 260.0
+Mean days to exploitation: 531.2
+Minimum days to exploitation: -290.0
+Maximum days to exploitation: 2860.0
+
+Patching Windows by Severity:
+  severity_v3  count    avg_days  min_days  max_days  median_days
+0    CRITICAL    542  518.950185    -290.0    2860.0        232.0
+1        HIGH    408  576.509804     -56.0    2781.0        368.5
+2      MEDIUM     51  329.235294     -52.0    1837.0        105.0
+3         LOW      3   13.000000       1.0      28.0         10.0
+4     UNKNOWN      0         NaN       NaN       NaN          NaN
+
+Patching Windows by Severity:
+  severity_v3  count    avg_days  min_days  max_days  median_days
+0    CRITICAL    542  518.950185    -290.0    2860.0        232.0
+1        HIGH    408  576.509804     -56.0    2781.0        368.5
+2      MEDIUM     51  329.235294     -52.0    1837.0        105.0
+3         LOW      3   13.000000       1.0      28.0         10.0
+4     UNKNOWN      0         NaN       NaN       NaN          NaN
+
+Patching Windows by Attack Vector:
+      attack_vector  count    avg_days  median_days
+0  ADJACENT_NETWORK     16  646.812500        461.5
+1             LOCAL    240  476.883333        205.5
+2           NETWORK    748  546.144385        269.5
+
+Window Category Distribution:
+  window_category  count  percentage
+0  Pre-disclosure     55        5.48
+1        0-7 days    172       17.13
+2       8-30 days     67        6.67
+3      31-90 days     82        8.17
+4        90+ days    628       62.55
+
+Key Findings:
+- 5.5% of vulnerabilities are exploited before public disclosure
+- 17.1% of vulnerabilities are exploited within 7 days (critical patching window)
+- 29.3% of vulnerabilities are exploited within 30 days of disclosure
+- Critical vulnerabilities have a median exploitation time of 232.0 days
+- High severity vulnerabilities have a median exploitation time of 368.5 days
+- ADJACENT_NETWORK vulnerabilities are exploited fastest, with a median of 461.5 days
+
+Analysis complete! Results saved to analysis_results/patching/

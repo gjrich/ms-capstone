@@ -1,7 +1,8 @@
 pandas
 numpy
-matplotlib 
-seaborn 
+matplotlib
+seaborn
 scikit-learn
 jupyter
 tqdm
+scipy

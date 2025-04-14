@@ -1,0 +1,35 @@
+This will appear in the console and be logged.
+Analyzing seasonal patterns in vulnerability exploitation...
+
+Monthly Exploitation Patterns:
+   month  vuln_count  exploited_count  exploitation_rate month_name
+0     01       12357               65               0.53        Jan
+1     02       11542               82               0.71        Feb
+2     03       12367              118               0.95        Mar
+3     04       12539              100               0.80        Apr
+4     05       11381               84               0.74        May
+5     06       13221               56               0.42        Jun
+6     07       13237               89               0.67        Jul
+7     08       13544               80               0.59        Aug
+8     09       12705              103               0.81        Sep
+9     10       13198               87               0.66        Oct
+10    11       12146               68               0.56        Nov
+11    12       13193               72               0.55        Dec
+
+Quarter-End Analysis:
+   is_quarter_end  vuln_count  exploited_count  exploitation_rate                  period
+0               0       99944              655               0.66  Non-Quarter-End Months
+1               1       51486              349               0.68      Quarter-End Months
+
+Holiday Season Analysis:
+   is_holiday_season  vuln_count  exploited_count  exploitation_rate                    period
+0                  0      126091              864               0.69        Non-Holiday Season
+1                  1       25339              140               0.55  Holiday Season (Nov-Dec)
+
+Key Findings:
+- Highest exploitation month: Mar with 0.95% rate
+- Lowest exploitation month: Jun with 0.42% rate
+- Quarter-end months have higher exploitation rates by 0.02 percentage points
+- Holiday season has lower exploitation rates by 0.14 percentage points
+
+Analysis complete! Results saved to analysis_results/seasonal/

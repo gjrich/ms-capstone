@@ -1,0 +1,35 @@
+(.venv) PS C:\Projects\ms-capstone> python utils/test_database.py  
+2025-04-06 22:44:16,241 - INFO - Testing database at data\vulnerability_analysis.db
+2025-04-06 22:44:16,248 - INFO - Table vulnerabilities has 282443 rows
+2025-04-06 22:44:16,250 - INFO - Table cwe has 145496 rows
+2025-04-06 22:44:16,269 - INFO - Table affected_products has 1119825 rows
+2025-04-06 22:44:16,270 - INFO - Table exploitations has 1311 rows
+2025-04-06 22:44:16,274 - INFO - Table epss_scores has 272390 rows
+2025-04-06 22:44:16,275 - INFO - Table public_exploits has 49822 rows
+2025-04-06 22:44:17,614 - INFO - View view_vulnerability_complete has 282443 rows
+2025-04-06 22:44:17,952 - INFO - View view_seasonal_patterns has 100 rows
+2025-04-06 22:44:18,073 - INFO - View view_critical_patching_window has 1041 rows
+2025-04-06 22:44:19,243 - INFO - View view_exploitation_predictors has 282443 rows
+2025-04-06 22:44:19,344 - INFO - View view_covid_impact has 188266 rows
+2025-04-06 22:44:19,345 - INFO - Running example queries...
+2025-04-06 22:44:19,442 - INFO - CVE: CVE-2022-26486, CVSS: 9.6, Published: 2022-12-22T20:15Z, Exploited: 2022-03-07, Days: -290.84375
+2025-04-06 22:44:19,442 - INFO - CVE: CVE-2022-26485, CVSS: 8.8, Published: 2022-12-22T20:15Z, Exploited: 2022-03-07, Days: -290.84375
+2025-04-06 22:44:19,442 - INFO - CVE: CVE-2019-8720, CVSS: 8.8, Published: 2023-03-06T23:15Z, Exploited: 2022-05-23, Days: -287.96875
+2025-04-06 22:44:19,442 - INFO - CVE: CVE-2022-1096, CVSS: 8.8, Published: 2022-07-23T00:15Z, Exploited: 2022-03-28, Days: -117.01041666651145
+2025-04-06 22:44:19,443 - INFO - CVE: CVE-2022-1364, CVSS: 8.8, Published: 2022-07-26T22:15Z, Exploited: 2022-04-15, Days: -102.92708333348855
+2025-04-06 22:44:19,443 - INFO - CVE: CVE-2021-4102, CVSS: 8.8, Published: 2022-02-11T23:15Z, Exploited: 2021-12-15, Days: -58.96875
+2025-04-06 22:44:19,443 - INFO - CVE: CVE-2023-38205, CVSS: None, Published: 2023-09-14T08:15Z, Exploited: 2023-07-20, Days: -56.34375
+2025-04-06 22:44:19,443 - INFO - CVE: CVE-2022-22675, CVSS: 7.8, Published: 2022-05-26T18:15Z, Exploited: 2022-04-04, Days: -52.760416666511446
+2025-04-06 22:44:19,444 - INFO - CVE: CVE-2022-22674, CVSS: 5.5, Published: 2022-05-26T18:15Z, Exploited: 2022-04-04, Days: -52.760416666511446
+2025-04-06 22:44:19,444 - INFO - CVE: CVE-2022-22587, CVSS: 9.8, Published: 2022-03-18T18:15Z, Exploited: 2022-01-28, Days: -49.760416666511446
+2025-04-06 22:44:19,782 - INFO - Year: 2025, Quarter: Q1, Vulnerabilities: 5731, Exploited: 11, Rate: 0.19%
+2025-04-06 22:44:19,782 - INFO - Year: 2024, Quarter: Q1, Vulnerabilities: 8896, Exploited: 30, Rate: 0.34%
+2025-04-06 22:44:19,783 - INFO - Year: 2024, Quarter: Q2, Vulnerabilities: 12003, Exploited: 33, Rate: 0.27%
+2025-04-06 22:44:19,783 - INFO - Year: 2024, Quarter: Q3, Vulnerabilities: 8658, Exploited: 39, Rate: 0.45%
+2025-04-06 22:44:19,783 - INFO - Year: 2024, Quarter: Q4, Vulnerabilities: 11121, Exploited: 35, Rate: 0.31%
+2025-04-06 22:44:19,783 - INFO - Year: 2023, Quarter: Q1, Vulnerabilities: 7595, Exploited: 31, Rate: 0.41%
+2025-04-06 22:44:19,783 - INFO - Year: 2023, Quarter: Q2, Vulnerabilities: 7443, Exploited: 39, Rate: 0.52%
+2025-04-06 22:44:19,784 - INFO - Year: 2023, Quarter: Q3, Vulnerabilities: 7526, Exploited: 47, Rate: 0.62%
+2025-04-06 22:44:19,784 - INFO - Year: 2023, Quarter: Q4, Vulnerabilities: 7895, Exploited: 36, Rate: 0.46%
+2025-04-06 22:44:19,784 - INFO - Year: 2022, Quarter: Q1, Vulnerabilities: 6300, Exploited: 44, Rate: 0.7%
+2025-04-06 22:44:19,785 - INFO - Database tests completed successfully
