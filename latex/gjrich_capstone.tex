@@ -9,6 +9,7 @@
 \documentclass[runningheads]{llncs}
 %
 \usepackage{graphicx}
+\usepackage{hyperref}
 % Used for displaying a sample figure. If possible, figure files should
 % be included in EPS format.
 %
@@ -204,57 +205,330 @@ For COVID-19 impact analysis, the dependent variables include exploitation rate 
 
 These variable relationships form the foundation for our analytical approach to understanding vulnerability exploitation patterns, critical patching windows, predictive attributes, and pandemic effects on the vulnerability landscape.
 
+\section{Analytical Pipeline and Predictive Mechanism}
+\label{sec:predictive_mechanism}
 
-\section{Seasonal Exploitation Pattern Analysis}
-The analysis of seasonal patterns in vulnerability exploitation revealed significant temporal variations. As shown in Figure~\ref{fig:monthly_pattern}, both vulnerability publication and exploitation rates exhibit monthly fluctuations.
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=\textwidth]{monthly_patterns.png}
-\caption{Vulnerability publication counts and exploitation rates by month}
-\label{fig:monthly_pattern}
-\end{figure}
-
-March showed both high vulnerability counts (approximately 17,000) and the highest exploitation rate (0.73\%), suggesting this month may be particularly risky. Interestingly, September also showed an elevated exploitation rate (0.71\%) despite having fewer published vulnerabilities. Conversely, January and June showed the lowest exploitation rates (approximately 0.40\%), indicating a potentially lower risk period.
-
-Additional analysis of quarterly patterns indicated that Q1 and Q3 had higher exploitation rates compared to Q2 and Q4, with the end-of-quarter months (March, June, September, December) showing variable exploitation patterns. These findings suggest that organizations should allocate additional security resources during high-risk months, particularly March and September, while potentially maintaining standard operations during lower-risk periods.
-
-\section{Critical Patching Window Determination}
-Analysis of the time between vulnerability disclosure and observed exploitation revealed concerning patterns regarding patching windows. As illustrated in Figure~\ref{fig:patching_window}, 73.1\% of exploited vulnerabilities had a patching window exceeding 90 days, while 10.5\% were exploited within the first week after disclosure.
+This project implements a comprehensive data processing and predictive analytics pipeline designed to model vulnerability exploitation likelihood. The pipeline consists of several interconnected components that transform raw vulnerability data into actionable security insights.
 
 \begin{figure}[htbp]
-\centering
-\includegraphics[width=0.8\textwidth]{exploitation_window_dist.png}
-\caption{Distribution of exploitation windows for vulnerabilities}
-\label{fig:patching_window}
+% Figure would be included in final version
+\caption{Vulnerability Exploitation Analysis Pipeline}
+\label{fig:pipeline}
 \end{figure}
 
-The median time to exploitation was 112 days, but this varied significantly by vulnerability severity. Critical vulnerabilities (CVSS 9.0-10.0) were exploited substantially faster, with a median time of just 23 days, compared to 97 days for high severity (CVSS 7.0-8.9) and 156 days for medium severity (CVSS 4.0-6.9) vulnerabilities.
+\subsection{Pipeline Architecture}
+The pipeline follows a modular architecture with the following components:
 
-These findings highlight the importance of rapid patching for critical-severity vulnerabilities, while suggesting that organizations may have somewhat longer windows for addressing less severe issues. The data indicates that a risk-based patching strategy prioritizing critical vulnerabilities within 3 weeks, high-severity within 90 days, and medium-severity within 150 days would mitigate a significant portion of exploitation risk.
+\begin{enumerate}
+    \item \textbf{Data Acquisition Layer}: Collects data from multiple sources (NVD, CISA KEV, EPSS, Exploit-DB) and stores them in raw format.
+    
+    \item \textbf{ETL (Extract, Transform, Load) Layer}: Processes raw data using Python scripts like \texttt{create\_database.py} and \texttt{clean\_database.py}. This layer handles data cleaning, schema mapping, relationship establishment, and data normalization.
+    
+    \item \textbf{Database Layer}: Implements a SQLite database with specialized tables and views optimized for vulnerability analysis. The database schema includes:
+    \begin{itemize}
+        \item Core tables: vulnerabilities, cwe, affected\_products, exploitations, epss\_scores, public\_exploits
+        \item Analysis views: view\_vulnerability\_complete, view\_seasonal\_patterns, view\_critical\_patching\_window, view\_exploitation\_predictors, view\_covid\_impact
+    \end{itemize}
+    
+    \item \textbf{Feature Engineering Layer}: Derives analytical features including:
+    \begin{itemize}
+        \item Temporal features: days\_to\_exploitation, is\_quarter\_end, is\_holiday\_season
+        \item Categorical encodings: attack vector, attack complexity, impacts
+        \item Numerical features: CVSS scores, EPSS scores, vulnerability counts
+    \end{itemize}
+    
+    \item \textbf{Analysis Modules}: Specialized Python scripts that implement focused analyses for each research question:
+    \begin{itemize}
+        \item \texttt{seasonal\_patterns.py}: Time series analysis of exploitation patterns
+        \item \texttt{critical\_patching\_window.py}: Exploitation timing and window calculation
+        \item \texttt{predictive\_attributes.py}: Machine learning for exploitation prediction
+        \item \texttt{covid\_impact.py}: Statistical analysis of pandemic effects
+    \end{itemize}
+    
+    \item \textbf{Visualization Layer}: Generates visualizations and summary statistics for interpretation and reporting.
+\end{enumerate}
 
-\section{Predictive Vulnerability Attributes}
-Machine learning analysis identified key attributes that most strongly predict vulnerability exploitation. As shown in Figure~\ref{fig:predictive_attributes}, the EPSS score emerged as the dominant predictor with dramatically higher importance than all other features.
+\subsection{Data Flow and Processing}
+The data flows through the pipeline in the following sequence:
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=\textwidth]{feature_importance.png}
-\caption{Top 15 features for predicting vulnerability exploitation}
-\label{fig:predictive_attributes}
-\end{figure}
+\begin{enumerate}
+    \item Raw data files are collected from multiple sources and stored locally.
+    \item The ETL process transforms these files into a normalized database structure.
+    \item Database views pre-calculate common metrics and relationships.
+    \item Analysis modules query the database to extract relevant datasets.
+    \item Machine learning models are trained on the prepared datasets.
+    \item Results are visualized and interpreted for actionable insights.
+\end{enumerate}
 
-Beyond EPSS scores, the analysis revealed several CVSS metrics with predictive value. The presence of public exploits, the raw CVSS score, and attack vector type (particularly network-based vectors) were moderately predictive. Among attack characteristics, those with lower complexity and requiring less user interaction showed higher exploitation likelihood. Vulnerabilities affecting integrity showed notably higher exploitation rates than those affecting only confidentiality or availability.
+\subsection{Machine Learning Integration}
+The predictive component of the pipeline centers around the Random Forest classifier implemented in \texttt{predictive\_attributes.py}. This model:
 
-The Random Forest model achieved 93.7\% accuracy in predicting exploitation, with particularly high precision (96.2\%) for exploited vulnerabilities. These findings suggest that organizations should prioritize remediation based on EPSS scores when available, followed by public exploit availability and CVSS metrics, with special attention to network-accessible vulnerabilities that have high integrity impact.
+\begin{itemize}
+    \item Ingests vulnerability attributes from the database
+    \item Processes both categorical and numerical features
+    \item Outputs exploitation probability estimates
+    \item Ranks feature importance for vulnerability prioritization
+\end{itemize}
 
-\section{COVID-19 Impact Analysis}
-The COVID-19 pandemic significantly altered the vulnerability exploitation landscape. Comparative analysis of pre-COVID (before March 2020), during-COVID (March 2020 to June 2021), and post-COVID (after June 2021) periods revealed notable shifts in both vulnerability publication rates and exploitation patterns.
+The pipeline's modular design allows for flexible analysis across multiple dimensions while maintaining data integrity and consistency throughout the process.
 
-The data showed a 14.3\% increase in vulnerability publications during the pandemic compared to the pre-pandemic period, rising from an average of 1,250 to 1,428 vulnerabilities per month. More significantly, the exploitation rate increased from 0.39\% in the pre-COVID period to 0.61\% during COVID – a 56.4\% increase. The post-COVID period showed a partial regression toward pre-pandemic levels, with exploitation rates of 0.52\%.
+\section{Machine Learning Methodology}
+\label{sec:ml_methodology}
 
-Days-to-exploitation also decreased during the pandemic, with the median time dropping from 98 days pre-COVID to 64 days during the pandemic. This acceleration in exploitation timing suggests that attackers were more aggressively targeting vulnerabilities during this period, potentially taking advantage of strained IT resources and rapidly deployed remote work infrastructure.
+\subsection{Algorithm Selection and Rationale}
+This research employs the Random Forest classifier as the primary machine learning algorithm. The algorithm selection was driven by several considerations:
 
-These findings highlight the impact of global disruptions on cybersecurity risk levels and suggest organizations should plan enhanced security measures during periods of significant operational change. The lasting elevation in exploitation rates even after the acute phase of the pandemic indicates a potential permanent shift in the threat landscape.
+\begin{itemize}
+    \item \textbf{Class Imbalance Handling}: With only 0.66\% of vulnerabilities in the dataset being exploited, Random Forest with balanced class weights helps address this significant imbalance.
+    
+    \item \textbf{Feature Importance Analysis}: Random Forest provides robust feature importance rankings, critical for identifying which vulnerability attributes most strongly predict exploitation.
+    
+    \item \textbf{Handling Mixed Data Types}: The dataset contains both numerical features (CVSS scores, EPSS scores) and categorical features (attack vectors, impact types), which Random Forest handles effectively.
+    
+    \item \textbf{Resistance to Overfitting}: Given the large feature space and relatively small number of positive examples, Random Forest's ensemble approach helps mitigate overfitting risks.
+\end{itemize}
+
+The specific implementation used scikit-learn's RandomForestClassifier with the following configuration:
+
+\begin{itemize}
+    \item n\_estimators=100 (100 decision trees in the ensemble)
+    \item random\_state=42 (for reproducibility)
+    \item n\_jobs=-1 (parallel processing)
+    \item class\_weight='balanced' (to address class imbalance)
+\end{itemize}
+
+\subsection{Feature Engineering}
+Feature engineering was a critical component of the machine learning approach. Key techniques included:
+
+\begin{itemize}
+    \item \textbf{One-hot Encoding}: Categorical variables like attack\_vector, attack\_complexity, and impact types were one-hot encoded to create binary feature vectors.
+    
+    \item \textbf{Missing Value Handling}: Missing categorical values were replaced with 'UNKNOWN' while numerical missing values were replaced with 0.
+    
+    \item \textbf{Feature Scaling}: Numerical features (cvss\_v3\_score, max\_epss\_score) were standardized using scikit-learn's StandardScaler.
+    
+    \item \textbf{Derived Features}: Additional features like has\_public\_exploit were derived from the database to enhance predictive power.
+\end{itemize}
+
+\section{Training and Testing Process}
+\label{sec:training_testing}
+
+\subsection{Data Preparation}
+The training and testing process began with comprehensive data preparation:
+
+\begin{enumerate}
+    \item \textbf{Query Construction}: Data was extracted from the SQLite database using a specialized query that joined multiple tables:
+    \begin{itemize}
+        \item vulnerabilities (for CVSS metrics and base attributes)
+        \item exploitations (for exploitation status)
+        \item epss\_scores (for exploitation probability scores)
+        \item public\_exploits (for exploit availability)
+    \end{itemize}
+    
+    \item \textbf{Feature Processing}:
+    \begin{itemize}
+        \item Categorical features were converted to dummy variables
+        \item Numerical features were scaled using StandardScaler
+        \item Target variable (is\_exploited) was extracted as a binary indicator
+    \end{itemize}
+    
+    \item \textbf{Data Splitting}: The processed dataset was split into training (70\%) and testing (30\%) sets using stratified sampling to maintain the same class distribution:
+    
+    \texttt{X\_train, X\_test, y\_train, y\_test = train\_test\_split(X, y, test\_size=0.3, random\_state=42, stratify=y)}
+\end{enumerate}
+
+\subsection{Model Training}
+The Random Forest model was trained on the prepared dataset:
+
+\begin{enumerate}
+    \item \textbf{Model Initialization}: A RandomForestClassifier with balanced class weights was instantiated.
+    
+    \item \textbf{Model Fitting}: The model was trained on the training dataset:
+    
+    \texttt{model.fit(X\_train, y\_train)}
+    
+    \item \textbf{Cross-Validation}: To assess model stability, 5-fold cross-validation was performed:
+    
+    \texttt{cv\_scores = cross\_val\_score(model, X, y, cv=5, scoring='f1')}
+    
+    This process yielded an average F1 score of 0.3248 (±0.0366), indicating consistent but challenging performance on this highly imbalanced dataset.
+\end{enumerate}
+
+\subsection{Model Evaluation}
+The trained model underwent comprehensive evaluation:
+
+\begin{enumerate}
+    \item \textbf{Prediction Generation}: Predictions were generated on the test set:
+    
+    \texttt{y\_pred = model.predict(X\_test)}
+    
+    \texttt{y\_prob = model.predict\_proba(X\_test)[:, 1]}
+    
+    \item \textbf{Performance Metrics}: Multiple metrics were calculated to assess model performance:
+    \begin{itemize}
+        \item Precision: 0.34 (proportion of predicted exploitations that were actually exploited)
+        \item Recall: 0.31 (proportion of actual exploitations that were correctly predicted)
+        \item F1 score: 0.33 (harmonic mean of precision and recall)
+        \item ROC AUC: 0.80 (area under the receiver operating characteristic curve)
+    \end{itemize}
+    
+    \item \textbf{Feature Importance Analysis}: Model feature importances were extracted and ranked to identify the most predictive vulnerability attributes.
+\end{enumerate}
+
+The evaluation results revealed that while overall accuracy was high (99\%), this was primarily due to the class imbalance. The more relevant metrics (precision, recall, F1 score) for the positive class showed more modest performance, highlighting the challenge of predicting rare exploitation events.
+
+\section{Implementation and Evaluation}
+\label{sec:implementation_evaluation}
+
+\subsection{Technical Implementation}
+The implementation of the vulnerability exploitation analysis pipeline involved several technical components:
+
+\begin{enumerate}
+    \item \textbf{Database Implementation}:
+    \begin{itemize}
+        \item SQLite database with optimized schema (151,430 vulnerability records)
+        \item Custom SQL views for efficient analysis queries
+        \item Indexing on commonly queried fields for performance
+    \end{itemize}
+    
+    \item \textbf{Code Implementation}:
+    \begin{itemize}
+        \item Python scripts organized by analysis domain
+        \item Pandas for data manipulation and aggregation
+        \item Scikit-learn for machine learning components
+        \item Matplotlib and Seaborn for visualization
+        \item Statistical testing using SciPy
+    \end{itemize}
+    
+    \item \textbf{Analysis Module Implementation}:
+    \begin{itemize}
+        \item \texttt{seasonal\_patterns.py}: Time series analysis with monthly/quarterly breakdowns
+        \item \texttt{critical\_patching\_window.py}: Exploitation timing analysis with severity breakdowns
+        \item \texttt{predictive\_attributes.py}: Machine learning model construction and evaluation
+        \item \texttt{covid\_impact.py}: Statistical comparison of pre/during/post pandemic periods
+    \end{itemize}
+\end{enumerate}
+
+\subsection{Evaluation Methodology}
+The evaluation strategy encompassed multiple dimensions:
+
+\begin{enumerate}
+    \item \textbf{Quantitative Evaluation}:
+    \begin{itemize}
+        \item Classification metrics: precision, recall, F1-score
+        \item ROC curve and AUC analysis
+        \item Cross-validation with 5 folds
+        \item Statistical significance testing (chi-square) for temporal comparisons
+    \end{itemize}
+    
+    \item \textbf{Qualitative Evaluation}:
+    \begin{itemize}
+        \item Feature importance ranking and interpretation
+        \item Exploitation pattern visualization and analysis
+        \item Temporal trend detection and validation
+    \end{itemize}
+    
+    \item \textbf{Practical Evaluation}:
+    \begin{itemize}
+        \item Critical patching window identification for operational security
+        \item High-risk seasonal period detection for resource allocation
+        \item Predictive attribute identification for vulnerability prioritization
+    \end{itemize}
+\end{enumerate}
+
+\subsection{Implementation Challenges}
+Several implementation challenges were addressed:
+
+\begin{enumerate}
+    \item \textbf{Data Integration}: The heterogeneous nature of the data sources required careful schema mapping and relationship definition.
+    
+    \item \textbf{Missing Values}: Incomplete records necessitated appropriate handling strategies to maintain dataset integrity.
+    
+    \item \textbf{Class Imbalance}: With only 0.66\% of vulnerabilities being exploited, specialized techniques were required for meaningful model training.
+    
+    \item \textbf{Temporal Alignment}: Ensuring proper temporal relationships between vulnerability publication and exploitation events required careful date handling.
+\end{enumerate}
+
+The implementation successfully addressed these challenges through a combination of database design, preprocessing logic, and machine learning techniques optimized for imbalanced datasets.
+
+\section{Analysis Results}
+\label{sec:results}
+
+\subsection{Seasonal Exploitation Patterns}
+Analysis of monthly vulnerability exploitation patterns revealed significant temporal variations:
+
+\begin{itemize}
+    \item \textbf{Monthly Variations}: Exploitation rates showed substantial monthly differences, with March having the highest rate (0.95\%) and June the lowest (0.42\%).
+    
+    \item \textbf{Quarter-End Analysis}: Quarter-end months showed slightly higher exploitation rates (0.68\%) compared to non-quarter-end months (0.66\%), though the difference was minimal.
+    
+    \item \textbf{Holiday Season Impact}: Contrary to expectations, the holiday season (November-December) showed lower exploitation rates (0.55\%) compared to the rest of the year (0.69\%), suggesting reduced attacker activity during these periods.
+\end{itemize}
+
+These findings indicate that vulnerability exploitation does follow seasonal patterns, with specific months showing consistently higher risk levels across multiple years of data.
+
+\subsection{Critical Patching Windows}
+The analysis of time intervals between vulnerability disclosure and exploitation provided critical insights:
+
+\begin{itemize}
+    \item \textbf{Overall Patching Windows}: The median time to exploitation was 260 days, while the mean was 531.2 days, indicating a right-skewed distribution.
+    
+    \item \textbf{Window Categories}:
+    \begin{itemize}
+        \item 5.5\% of vulnerabilities were exploited before public disclosure
+        \item 17.1\% within the first 7 days (critical window)
+        \item 6.7\% between 8-30 days
+        \item 8.2\% between 31-90 days
+        \item 62.6\% after 90 days
+    \end{itemize}
+    
+    \item \textbf{Severity Impact}: Critical vulnerabilities had a median exploitation time of 232.0 days, while high severity vulnerabilities had a longer window at 368.5 days.
+\end{itemize}
+
+These results highlight the importance of rapid patching for a significant subset of vulnerabilities, while also suggesting that many exploitations occur well after disclosure, providing a longer remediation window for resource-constrained organizations.
+
+\subsection{Predictive Vulnerability Attributes}
+The machine learning analysis identified key attributes predictive of exploitation:
+
+\begin{itemize}
+    \item \textbf{Top Predictive Features}: The Random Forest model identified the following as most important:
+    \begin{enumerate}
+        \item max\_epss\_score (0.74 importance)
+        \item cvss\_v3\_score (0.05 importance)
+        \item integrity\_impact\_HIGH (0.03 importance)
+        \item has\_public\_exploit (0.03 importance)
+    \end{enumerate}
+    
+    \item \textbf{Attack Vector Analysis}: Network-based vulnerabilities showed the highest exploitation rate (0.68\%), followed by local vulnerabilities (0.65\%).
+    
+    \item \textbf{Attack Complexity}: Surprisingly, HIGH complexity vulnerabilities showed slightly higher exploitation rates (0.76\%) than LOW complexity ones (0.66\%).
+    
+    \item \textbf{Impact Types}: Vulnerabilities with HIGH integrity impact showed the highest exploitation rates (1.14\%), significantly higher than those with only confidentiality or availability impacts.
+\end{itemize}
+
+The model achieved 99\% overall accuracy but more modest metrics for the exploited class, with precision of 0.34, recall of 0.31, and F1-score of 0.33. The 5-fold cross-validation F1 score was 0.3248 (±0.0366), indicating consistent but challenging performance on this highly imbalanced dataset.
+
+\subsection{COVID-19 Impact}
+The analysis of how the COVID-19 pandemic affected vulnerability exploitation revealed significant shifts:
+
+\begin{itemize}
+    \item \textbf{Exploitation Rate Changes}:
+    \begin{itemize}
+        \item Pre-COVID: 0.65\% exploitation rate
+        \item During-COVID: 0.84\% exploitation rate (29.2\% increase)
+        \item Post-COVID: 0.62\% exploitation rate (26.2\% decrease from COVID period)
+    \end{itemize}
+    
+    \item \textbf{Vulnerability Publication}: Monthly vulnerability publications increased by 3.2\% during the pandemic period.
+    
+    \item \textbf{Exploitation Timing}: Median time to exploitation decreased by 54.2\% during COVID compared to the pre-COVID period.
+    
+    \item \textbf{Statistical Significance}: Chi-square testing confirmed the exploitation rate changes were statistically significant (p=0.0131).
+\end{itemize}
+
+These findings demonstrate a clear impact of the pandemic on cybersecurity risk, with heightened exploitation rates and accelerated exploitation timing during the COVID period, followed by a partial return to pre-pandemic levels afterward.
+
+
 
 \section{Discussion and Implications}
 % Will interpret results and discuss cybersecurity implications
@@ -268,6 +542,27 @@ These findings highlight the impact of global disruptions on cybersecurity risk 
 % BibTeX users should specify bibliography style 'splncs04'.
 % References will then be sorted and formatted in the correct style.
 %
+
+\section{Supplemental Materials from GitHub}
+\label{sec:supplemental_materials}
+
+The following links provide additional context and source code for the predictive attributes analysis. Specifically, the script, log file, and result images can be found at:
+
+\begin{itemize}
+    \item \textbf{Script generating the results:}\\
+    \href{https://github.com/gjrich/ms-capstone/blob/master/problems/predictive\_attributes.py}{\texttt{predictive\_attributes.py}}
+
+    \item \textbf{Basic results (log file):}\\
+    \href{https://github.com/gjrich/ms-capstone/blob/master/problems/predictive\_attributes.txt}{\texttt{predictive\_attributes.txt}}
+
+    \item \textbf{Images detailing the analysis results:}\\
+    \href{https://github.com/gjrich/ms-capstone/tree/master/problems/analysis\_results/predictive}{\texttt{analysis\_results/predictive}}
+\end{itemize}
+
+These materials complement the discussion in Section~\ref{sec:implementation_evaluation}, providing both the raw output and visualizations of the model’s performance.
+
+
+
 \bibliographystyle{splncs04}
 \bibliography{mybibliography}
 
